@@ -12,43 +12,22 @@ from db import db
 
 
 class BaseTest(TestCase):
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-
     @classmethod
-    def setUpClass(cls):
-        app.config['SQLALCHEMY_DATABASE_URI'] = BaseTest.SQLALCHEMY_DATABASE_URI
-        app.config['DEBUG'] = False
+    def setUpClass(cls):        # runs ones for each test class (suite)
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
         with app.app_context():
             db.init_app(app)
 
-    def setUp(self):
+    def setUp(self):            #runs 1-s for every test method (case)
+        # Make sure database exists
         with app.app_context():
             db.create_all()
+        # Get a test client
         self.app = app.test_client
         self.app_context = app.app_context
 
     def tearDown(self):
+        # Database is blank
         with app.app_context():
             db.session.remove()
             db.drop_all()
-
-# class BaseTest(TestCase):
-#     @classmethod
-#     def SetUpClass(cls):        # runs ones for each test class (suite)
-#         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
-#         with app.app_context():
-#             db.init_app(app)
-#
-#     def setUp(self):            #runs 1-s for every test method (case)
-#         # Make sure database exists
-#         with app.app_context():
-#             db.create_all()
-#         # Get a test client
-#         self.app = app.test_client
-#         self.app_context = app.app_context
-#
-#     def tearDown(self):
-#         # Database is blank
-#         with app.app_context():
-#             db.session.remove()
-#             db.drop_all()
