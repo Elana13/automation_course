@@ -1,6 +1,7 @@
 from models.user import UserModel
-from tests.unit.unit_base_test import BaseTest
 import json
+
+from tests.base_test import BaseTest
 
 
 class UserTest(BaseTest):

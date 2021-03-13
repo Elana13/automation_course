@@ -18,8 +18,8 @@ class UnitBaseTest(TestCase):
         app.config['DEBUG'] = False
         app.config['PROPAGATE_EXCEPTIONS'] = True
         with app.app_context():
-            db.create_all()
             db.init_app(app)
+            db.create_all()
         # Get a test client
         self.app = app.test_client
         self.app_context = app.app_context
